@@ -1,0 +1,353 @@
+ScreenMain:
+    LoginScreen:
+    ActivityScreen:
+
+<SelectableLabel>:
+# Draw a background to indicate selection
+    canvas.before:
+        Color:
+            rgba: (.9, 0.1, .1, .9) if self.selected else (0, 0, 0, 1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+<LoginScreen>:
+    name:'LoginScreen'
+    GridLayout:
+        canvas.before:
+            Color:
+                rgba: .8, .1, .1, .9
+            Rectangle:
+                pos:self.pos
+                size:self.size
+        cols:1
+        font_size:12
+        Label:
+            text:"LandBroker UG"
+            font_size:30
+            size_hint: .3, .2
+        Label:
+            text:'Login'
+            size_hint_y: None
+            height:'40dp'
+        GridLayout:
+            cols:2
+            padding:5
+            spacing: 5
+            size_hint_y:None
+            height:self.height
+            Label:
+                text:'Username'
+                size_hint_y:None
+                height:'35dp'
+            TextInput:
+                id:uname
+                hint_text:'Username'
+                multiline:False
+                size_hint_y:None
+                height:'35dp'
+            Label:
+                text:'Password'
+                size_hint_y:None
+                height:'35dp'
+            TextInput:
+                id:uname
+                hint_text:'*******'
+                multiline:False
+                password:True
+                size_hint_y:None
+                height:'35dp'
+            Button:
+                text:'Login'
+                size_hint_y:None
+                height:'35dp'
+                background_color: .8, .2, .3, .9
+                on_press:
+                    app.root.current='Activity'
+            Button:
+                text:'Register'
+                size_hint_y:None
+                height:'35dp'
+                background_color: .8, .2, .3, .9
+        Label:
+            text:"This is a property of the Couch Brothers.\n\n Developed by [b]Mubosoft[b] \n [i]where software is made[i]"
+            text_size: self.size
+            size_hint_y: .3
+            markup:True
+            valign:'center'
+            halign:'center'
+
+        Button:
+            text:'Contact Developer'
+            size_hint_y:None
+            height:'50dp'
+            background_color: .1, .9, .2, .9
+
+<ActivityScreen>:
+    name:'Activity'
+    TabbedPanel:
+        do_default_tab:False
+        TabbedPanelItem:
+            text:'Buy'
+            GridLayout:
+                cols:1
+                RV:
+                    viewclass: 'SelectableLabel'
+                    id: rv
+                    SelectableRecycleBoxLayout:
+                        default_size: None, dp(40)
+                        id: rv1
+                        default_size_hint: 1, None
+                        size_hint_y: None
+                        height: self.minimum_height
+                        orientation: 'vertical'
+                        data:None
+                        multiselect: True
+                        touch_multiselect: True
+                Button:
+                    text:'Show'
+                    size_hint_y:None
+                    height:'35dp'
+                    on_press:root.show_dict()
+
+
+        TabbedPanelItem:
+            text:'Sell'
+            ScrollView:
+                canvas.before:
+                    Color:
+                        rgba: .8, .1, .1, .9
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                do_scroll_x: True
+                do_scroll_y:True
+                bar_color: .9, 1, .3, .9
+                GridLayout:
+                    cols:1
+                    padding: 10, 10
+                    size_hint_y: None
+                    height: root.height
+                    Label:
+                        text:'Username'
+                        size_hint_y:None
+                        height: '35dp'
+                    GridLayout:
+                        cols:2
+                        size_hint_y: None
+                        height:'355dp'
+                        spacing: 5
+                        Label:
+                            text:'Tel. No'
+                            size_hint_y:None
+                            height: '35dp'
+
+                        TextInput:
+                            multiline:False
+                            hint_text:'+256772888555'
+                            size_hint_y:None
+                            height: '35dp'
+                        Label:
+                            text:'Email'
+                            size_hint_y:None
+                            height: '35dp'
+
+                        TextInput:
+                            multiline:False
+                            hint_text:'your@domain.com'
+                            size_hint_y:None
+                            height: '35dp'
+                        Label:
+                            text:'NIN_number'
+                            size_hint_y:None
+                            height: '35dp'
+
+                        TextInput:
+                            multiline:False
+                            hint_text:'4364HHDNRFIU759IEBJ'
+                            size_hint_y:None
+                            height: '35dp'
+                        Label:
+                            text:'Location'
+                            size_hint_y:None
+                            height: '35dp'
+
+                        TextInput:
+                            multiline:False
+                            id:location
+                            hint_text:'place'
+                            size_hint_y:None
+                            height: '35dp'
+                        Label:
+                            text:'Amount per unit'
+                            size_hint_y:None
+                            height: '35dp'
+
+                        TextInput:
+                            multiline:False
+                            id:location
+                            hint_text:'3M UGX per acre'
+                            size_hint_y:None
+                            height: '35dp'
+
+                        Label:
+                            text:'Size'
+                            size_hint_y:None
+                            height: '35dp'
+
+                        TextInput:
+                            multiline:False
+                            id:size
+                            hint_text:'eg. 50 Acres'
+                            size_hint_y:None
+                            height: '35dp'
+                        Button:
+                            text:'Upload ID'
+                            size_hint_y:None
+                            height: '35dp'
+                            background_color: .8, .2, .3, .9
+                            on_press: root.UploadPic()
+
+                        Label:
+                            text:'.pdf/.jpg/.png/.img'
+                            font_size:12
+                            id: pictured
+                            size_hint_y:None
+                            height: '35dp'
+                        Button:
+                            text:'Upload title'
+                            size_hint_y:None
+                            height: '35dp'
+                            background_color: .8, .2, .3, .9
+                            on_press: root.UploadPic()
+
+                        Label:
+                            text:'.pdf/.jpg/.png/.img'
+                            font_size:12
+                            id: title
+                            size_hint_y:None
+                            height: '35dp'
+                        Button:
+                            text:'Upload Map'
+                            size_hint_y:None
+                            height: '35dp'
+                            background_color: .8, .2, .3, .9
+                            on_press: root.UploadPic()
+
+                        Label:
+                            text:'.pdf/.jpg/.png/.img'
+                            font_size:12
+                            id:map
+                            size_hint_y:None
+                            height: '35dp'
+                    Label:
+                        text:'Choose Mode(s) of sale'
+                        size_hint_y:None
+                        height: '35dp'
+                    GridLayout:
+                        cols:2
+                        size_hint_y: None
+                        height: '80dp'
+                        Label:
+                            text:'Selling in parts'
+                            size_hint_y:None
+                            height: '35dp'
+                        CheckBox:
+                            id:Partly
+                            size_hint_y:None
+                            height: '35dp'
+                        Label:
+                            text:'Selling as whole'
+                            size_hint_y:None
+                            height: '35dp'
+                        CheckBox:
+                            id:wholly
+                            size_hint_y:None
+                            height: '35dp'
+                    Label:
+                        text:'Choose type of land ownership'
+                        size_hint_y:None
+                        height: '35dp'
+                    GridLayout:
+                        cols:2
+                        size_hint_y: None
+                        height:'120dp'
+                        Label:
+                            text:'Full Ownership'
+                            size_hint_y:None
+                            height: '35dp'
+                        CheckBox:
+                            id:full
+                            size_hint_y:None
+                            height: '35dp'
+                            group: 'land_own'
+                        Label:
+                            text:'Lease'
+                            size_hint_y:None
+                            height: '35dp'
+                        CheckBox:
+                            id:lease
+                            group: 'land_own'
+                            size_hint_y:None
+                            height: '35dp'
+                        Label:
+                            text:'Rent'
+                            size_hint_y:None
+                            height: '35dp'
+                        CheckBox:
+                            id:rent
+                            group: 'land_own'
+                            size_hint_y:None
+                            height: '35dp'
+                    Button:
+                        text:'Submit'
+                        size_hint_y:None
+                        height: '35dp'
+                        background_color: .8, .2, .3, .9
+                    Label:
+                        text:'We shall verify the validity of your ownership of land. Within a week, we shall send you a text or call you to inform you about the valiity of your claim of sale.'
+                        text_size:self.size
+                        size_hint_y:None
+                        height: '100dp'
+        TabbedPanelItem:
+            text:'About'
+            GridLayout:
+                cols:1
+                padding: 5
+                canvas.before:
+                    Color:
+                        rgba: .8, .1, .1, .9
+                    Rectangle:
+                        pos:self.pos
+                        size:self.size
+                Label:
+                    text:'This app provides you with a platform to sell and buy land at the convinience of your own home. All you have to do is to fit in the required information and the rest will be done by our team. All land sold through this app is genuine which means that verification and movement of the land details is done by our team as well.'
+                    text_size: self.size
+                    valign:'top'
+                    halign:'auto'
+                Button:
+                    text:'Contact Developer of App'
+                    size_hint_y:None
+                    height: '35dp'
+                    background_color: .8, .2, .3, .9
+                Button:
+                    text:'Log Out'
+                    size_hint_y:None
+                    height: '35dp'
+                    background_color: .8, .2, .3, .9
+
+<Erpop>:
+    cols:1
+    Label:
+        text: 'An error Occurred !!!!'
+
+<UpPic>:
+    cols:1
+    FileChooserListView:
+        id: Fc
+        filters:['*.png', '*.jpg', '*.pdf', '*.img']
+    Button:
+        text:'Upload'
+        size_hint_y: None
+        height:'35dp'
+        on_press: root.upload(Fc.path, Fc.selection)
