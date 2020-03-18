@@ -1,0 +1,484 @@
+<MyLabel>:
+    markup:True
+    text_size: self.size
+    halign:'center'
+    valign:'center'
+    color: .2, .4, .2, .9
+<MyTitle>:
+    markup:True
+    text_size: self.size
+    halign:'center'
+    valign:'center'
+    color: .2, .4, .2, .9
+    bold: True
+
+<MyCard>:
+    orientation:'vertical'
+    size_hint: None, None
+    height: root.height/4
+    width: root.width/2.5
+    allow_stretch: True
+    keep_ratio:False
+    elevation: 6
+    Image:
+        source:'./black.jpg'
+        allow_stretch: True
+        keep_ratio: True
+    MDRaisedButton:
+        text:'Buy Equipment'
+        icon:'cash'
+        size_hint_x:None
+        width:root.width/2.5
+        md_bg_color:.5, .2, .2, 1
+        on_press: root.items()
+
+RootScreen:
+    id:scr_mng
+    LoginScreen:
+    ActivityScreen:
+
+<LoginScreen>:
+    name:'login'
+    BoxLayout:
+        orientation:'vertical'
+        MDLabel:
+            text:'[color=#234523]LandBroker Ug[/color]'
+            font_size:'35dp'
+            size_hint_y: None
+            height:'60dp'
+            markup: True
+            halign: 'center'
+        MDLabel:
+            text: 'Login'
+            id: login
+            halign: 'center'
+            size_hint_y: None
+            height:'45dp'
+        GridLayout:
+            cols:2
+            size_hint:(None,None)
+            height:'180dp'
+            spacing:5
+            padding:5
+            width:root.width
+            MDLabel:
+                text:'[color=#234567]Username[/color]:'
+                markup:True
+                size_hint_y:None
+                height:'35dp'
+            MDTextField:
+                hint_text:'your username'
+                id: uname
+                max_text_length:15
+                color_mode:'accent'
+                line_color_normal: .2, .7, .2, .9
+                size_hint_y:None
+                height:'35dp'
+                on_text_validate: root.login()
+            MDLabel:
+                text:'[color=#234567]Password[/color]:'
+                markup:True
+                size_hint_y:None
+                height:'35dp'
+            MDTextField:
+                hint_text:'your password'
+                id:pswd
+                password:True
+                max_text_length:15
+                line_color_normal: .2, .7, .2, .9
+                color_mode:'accent'
+                size_hint_y:None
+                height:'35dp'
+                on_text_validate: root.login()
+            MDFillRoundFlatIconButton:
+                text:'Login'
+                icon:'key'
+                size_hint_x: 1
+                md_bg_color: .2, .4, .2, 1
+                on_release: root.login()
+            MDFillRoundFlatIconButton:
+                text:'Sign Up'
+                icon:'web'
+                size_hint_x: 1
+                md_bg_color: .2, .4, .2, 1
+                on_release:root.signup()
+
+        MDRoundFlatIconButton:
+            text:'[color=#225511]Forgot Passward[/color]'
+            markup:True
+            icon:'email-outline'
+            halign:'center'
+            padding: 10, 10
+            valign:'center'
+            halign:'center'
+            size_hint_x:None
+            width:root.width
+            on_press: root.login()
+        GridLayout:
+            cols:1
+            MyLabel:
+                text:'[color=#225511]MADE BY MUBOSOFT[/color]'
+                size_hint_y:None
+                height:'40dp'
+
+
+<ActivityScreen>:
+    name:'activity'
+    BoxLayout:
+        orientation:'vertical'
+        MDToolbar:
+            id: toolbar
+            title: 'LandBroker Ug'
+            md_bg_color: .2, .5, .2, .9
+            left_action_items: [['cash', lambda x: '']]
+        MDBottomNavigation:
+            id: panel
+            MDBottomNavigationItem:
+                name: 'files1'
+                text: 'Buy Land'
+                icon: 'cart-arrow-down'
+
+                ScrollView:
+                    id: refresh_layout
+                    #refresh_callback: app.refresh_callback
+                    #root_layout: root
+                    bar_inactive_color: .2,.5, .2, 1
+                    bar_width: 3
+                    bar_color: .7, .2, .2, 1
+                    GridLayout:
+                        id: box
+                        size_hint_y: None
+                        height: self.minimum_height
+                        spacing:5
+                        cols: 1
+                        padding:10
+                        MyLabel:
+                            text:'List of Land for Sale'
+                            size_hint:(1, None)
+                            height:'40dp'
+                        MyLabel:
+                            text:'You only have to pay for the land after you have received its instruments of power. All the land, sold on this platform is genuine. Forget the scruplous sellers, try LandBroker Ug.'
+                            text_size: self.size
+                            halign:'auto'
+                            size_hint_y: None
+                            height: '100dp'
+                            bold:True
+                GridLayout:
+                    cols:2
+                    size_hint_height:None
+                    height:'45dp'
+                    spacing:5
+                    padding:5
+                    MDFillRoundFlatIconButton:
+                        text:'Re-Load'
+                        icon:'reload'
+                        md_bg_color: .7, .2, .2, 1
+                        size_hint_x: .4
+                        on_release:
+                            root.show_more()
+                    MDFillRoundFlatIconButton:
+                        text:'Back to top'
+                        icon:'arrow-up-bold'
+                        md_bg_color: .7, .2, .2, 1
+                        size_hint_x: .4
+                        on_release:
+                            root.to_top()
+
+
+
+            MDBottomNavigationItem:
+                name: 'files2'
+                text: 'Sell Land'
+                icon: 'cash-plus'
+                ScrollView:
+                    id: refresh_layout
+                    #refresh_callback: app.refresh_callback
+                    #root_layout: root
+                    bar_inactive_color: .2,.5, .2, 1
+                    bar_width: 3
+                    bar_color: .7, .2, .2, 1
+                    GridLayout:
+                        id: box1
+                        size_hint_y: None
+                        height: self.minimum_height
+                        cols: 1
+                        padding:10
+                        MyTitle:
+                            text:'Username'
+                            id: 1_uname
+                            size_hint_y:None
+                            height: '35dp'
+                        GridLayout:
+                            cols:2
+                            size_hint_y: None
+                            height:'355dp'
+                            spacing: 5
+                            MyLabel:
+                                text:'Tel. No'
+                                size_hint_y:None
+                                height: '35dp'
+
+                            TextInput:
+                                multiline:False
+                                hint_text:'+256772888555'
+                                size_hint_y:None
+                                height: '35dp'
+                                id: tel_no
+                                border: (4, 0, 0, 0)
+                            MyLabel:
+                                text:'Email'
+                                size_hint_y:None
+                                height: '35dp'
+
+                            TextInput:
+                                multiline:False
+                                hint_text:'your@domain.com'
+                                size_hint_y:None
+                                height: '35dp'
+                                border: (4, 0, 0, 0)
+                                id: mail
+                            MyLabel:
+                                text:'NIN_number'
+                                size_hint_y:None
+                                height: '35dp'
+
+                            TextInput:
+                                multiline:False
+                                hint_text:'4364HHDNRFIU759IEBJ'
+                                size_hint_y:None
+                                height: '35dp'
+                                border: (4, 0, 0, 0)
+                                id: nin_no
+                            MyLabel:
+                                text:'Location'
+                                size_hint_y:None
+                                height: '35dp'
+
+                            TextInput:
+                                multiline:False
+                                id:reside
+                                hint_text:'place'
+                                size_hint_y:None
+                                height: '35dp'
+                                border: (4, 0, 0, 0)
+                            MyLabel:
+                                text:'Amount per unit'
+                                size_hint_y:None
+                                height: '35dp'
+
+                            TextInput:
+                                multiline:False
+                                id:amount
+                                hint_text:'3M UGX per acre'
+                                size_hint_y:None
+                                height: '35dp'
+                                border: (4, 0, 0, 0)
+
+                            MyLabel:
+                                text:'Size'
+                                size_hint_y:None
+                                height: '35dp'
+
+                            TextInput:
+                                multiline:False
+                                id:size
+                                hint_text:'eg. 50 Acres'
+                                size_hint_y:None
+                                height: '35dp'
+                                border: (4, 0, 0, 0)
+                            MDFillRoundFlatIconButton:
+                                text:'Upload ID'
+                                icon:'file-upload'
+                                size_hint_y:None
+                                height: '35dp'
+                                size_hint_x:.5
+                                md_bg_color: .2, .5, .2, .9
+                                on_press: root.UploadPic()
+
+                            MyLabel:
+                                text:'.pdf/.jpg/.png/.img'
+                                font_size:14
+                                id: id_pic
+                                size_hint_y:None
+                                height: '35dp'
+                            MDFillRoundFlatIconButton:
+                                text:'Upload title'
+                                icon:'file-upload'
+                                size_hint_y:None
+                                height: '35dp'
+                                size_hint_x:.5
+                                md_bg_color: .2, .5, .2, .9
+                                on_press: root.UploadPic()
+
+                            MyLabel:
+                                text:'.pdf/.jpg/.png/.img'
+                                font_size:14
+                                id: title_pic
+                                size_hint_y:None
+                                height: '35dp'
+                            MDFillRoundFlatIconButton:
+                                text:'Upload Map'
+                                icon:'file-upload'
+                                size_hint_y:None
+                                height: '35dp'
+                                size_hint_x:.5
+                                md_bg_color: .2, .5, .2, .9
+                                on_press: root.UploadPic()
+
+                            MyLabel:
+                                text:'.pdf/.jpg/.png/.img'
+                                font_size:14
+                                id:map_pic
+                                size_hint_y:None
+                                height: '35dp'
+                        MyTitle:
+                            text:'Choose Mode(s) of sale'
+                            size_hint_y:None
+                            height: '35dp'
+                        GridLayout:
+                            cols:2
+                            size_hint_y: None
+                            height: '80dp'
+                            MyLabel:
+                                text:'Selling in parts'
+                                size_hint_y:None
+                                height: '35dp'
+                            CheckBox:
+                                id:Partly
+                                size_hint_y:None
+                                height: '35dp'
+                                color: .1, .3, .1, 1
+                            MyLabel:
+                                text:'Selling as whole'
+                                size_hint_y:None
+                                height: '35dp'
+                            CheckBox:
+                                id:wholly
+                                size_hint_y:None
+                                height: '35dp'
+                                color: .1, .3, .1, 1
+                        MyTitle:
+                            text:'Choose type of land ownership'
+                            size_hint_y:None
+                            height: '35dp'
+                        GridLayout:
+                            cols:2
+                            size_hint_y: None
+                            height:'120dp'
+                            MyLabel:
+                                text:'Full Ownership'
+                                size_hint_y:None
+                                height: '35dp'
+                            CheckBox:
+                                id:full
+                                size_hint_y:None
+                                height: '35dp'
+                                group: 'land_own'
+                                color: .1, .3, .1, 1
+                            MyLabel:
+                                text:'Lease'
+                                size_hint_y:None
+                                height: '35dp'
+                            CheckBox:
+                                id:lease
+                                group: 'land_own'
+                                size_hint_y:None
+                                height: '35dp'
+                                color: .1, .3, .1, 1
+                            MyLabel:
+                                text:'Rent'
+                                size_hint_y:None
+                                height: '35dp'
+                            CheckBox:
+                                id:rent
+                                group: 'land_own'
+                                size_hint_y:None
+                                height: '35dp'
+                                color: .1, .3, .1, 1
+                        MDRaisedButton:
+                            text:'Submit'
+                            size_hint_y:None
+                            height: '35dp'
+                            md_bg_color: .7, .2, .2, 1
+                            size_hint_x: 1
+                            on_release: root.submit_data()
+                        MyLabel:
+                            text:'We shall verify the validity of your ownership of the land within a week. After, we shall call you to inform you about your validity of claim of sale. Only approved land owners will have their land posted or uploaded onto our applications. This is a process undertaken to ensure that all lands sold by our company are genuine.'
+                            text_size:self.size
+                            size_hint_y:None
+                            height: '100dp'
+            MDBottomNavigationItem:
+                name: 'files3'
+                text: 'About'
+                icon: 'arrow-up-bold-hexagon-outline'
+                text:'About'
+                GridLayout:
+                    cols:1
+                    padding: 5
+                    spacing:5
+                    MyTitle:
+                        text:'Username'
+                        id: uname
+                        valign:'top'
+                        halign:'center'
+                        size_hint:(1, None)
+                        height: '45dp'
+                    MyLabel:
+                        text:'This app provides you with a platform to sell and buy land at the convinience of your own home. All you have to do is to fit in the required information and the rest will be done by our team. All land sold through this app is genuine which means that verification and movement of the land details is done by our team as well. LandBroker Ug will only accept your payment after you have received the land title of your purchase. Basically, land is paid for after the buyer has received its instruments of ownership. Incase of any complaint, please inform us via our email, phone number or vist our offices.'
+                        text_size: self.size
+                        valign:'top'
+                        halign:'auto'
+                    MyLabel:
+                        text:'[b]Email:[/b] mubosoft41@gmail.com \n\n[b]Tel[/b]: 0788523469/0758345060 \n\n[b]Location[/b]: Sir Apollo Kaggwa road'
+                        halign:'left'
+                        valign:'top'
+                        markup: True
+                    MDRaisedButton:
+                        text:'Contact Developer of App'
+                        size_hint:(1, None)
+                        height: '35dp'
+                        md_bg_color: .8, .2, .3, .9
+                    MDRaisedButton:
+                        text:'Log Out'
+                        size_hint:(1, None)
+                        height: '35dp'
+                        md_bg_color: .8, .2, .3, .9
+                        on_release: root.logout()
+
+<UpPic>:
+    cols:1
+    FileChooserListView:
+        id: Fc
+        filters:['*.png', '*.jpg', '*.pdf', '*.img']
+    Button:
+        text:'Upload'
+        size_hint_y: None
+        height:'35dp'
+        on_press: root.upload(Fc.path, Fc.selection)
+
+<LandId>:
+    cols:2
+    padding:10
+    canvas.before:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    size_hint_y:None
+    height:'120dp'
+    MyTitle:
+        text:'Land ID: '
+        size_hint_y:None
+        height:'40dp'
+    MDTextField:
+        hint_text:"The id of the land"
+        on_text_validate:root.printer()
+        id:land_id
+        size_hint_y:None
+        height:'40dp'
+    Button:
+        text:'Ok'
+        on_press:root.printer()
+        size_hint_y:None
+        height:'40dp'
