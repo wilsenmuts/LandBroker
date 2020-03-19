@@ -1,0 +1,41 @@
+{% load static %}
+<DOCTYPE html>
+<head>
+    <title>LandBroker</title>
+    <link rel='stylesheet' href={% static 'css/style1.css' %} />
+    <link rel="icon" href="http://example.com/favicon.png">
+</head>
+<body>
+    <h1>Landbroker Ug</h1>
+    <hr>
+    <div>
+        <form method='POST'>
+        {% csrf_token %}
+        <table>
+            <tr>
+            <td>Username:</td><td><input type='text' name='uname' placeholder='username'></td>
+            </tr>
+            <tr>
+            <td>First Name:</td><td><input type='text' name='fname' placeholder='your first name'></td>
+            </tr>
+            <tr>
+            <td>Surname:</td><td><input type='text' name='sname' placeholder='your Surname'></td>
+            </tr>
+            <tr>
+            <td>Email</td><td><input type='text' name='mail' placeholder='your email'></td>
+            </tr>
+            <tr>
+            <td>Photo:</td><td><input type='file' name='photo' placeholder='your photo'></td>
+            </tr>
+            <tr>
+            <td>Tel No:</td><td><input type='text' name='tel' placeholder='your phone contact'></td>
+            </tr>
+            <tr>
+            <td>Password:</td><td><input type='password' name='pswd' placeholder='password'></td>
+            </tr>
+        </table>
+       <br>
+        <input type='submit' value='Register'>
+        </form>
+    </div>
+</body>

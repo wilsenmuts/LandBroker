@@ -1,0 +1,49 @@
+{% load static %}
+<DOCTYPE html>
+<head>
+    <title>LandBroker</title>
+    <link rel='stylesheet' href={% static 'css/style1.css' %} />
+    <link rel="icon" href="http://example.com/favicon.png">
+</head>
+<body>
+    <h1>Landbroker Ug</h1>
+<a href={% url 'landbroker:submit_sale' %}><button class ='btn_cls1'><u>Click Here To Sell Land</u></button></a>
+    <hr>
+    <div>
+        <h2>Select Land To Buy</h2>
+        <div class='container' style='border-radius:5px;'>
+        If you are interested in buying any piece of land, please click the blue button below it to express interest. We shall call you to inform you about the procedure of sale and get to know your order better. We believe in truth, hence, we assure you that all the land available on this site has been verified to be genuine and to belong to the sellers. At LandBroker Ug, we only receive payment after you have received the land title for the land.</p>
+        </div>
+        <br>
+        <nav>
+        <form>
+            <input type='text' placeholder='Location'>
+            <select><option value='full'> Full Ownership </option><option value='lease'> Lease </option><option value='rent'> Rent </option></select>
+            <input class='btn_cls2' type='submit' value='Search'>
+        </form>
+        </nav>
+    </div>
+    <div class ='row'>
+        {% if operation %}
+
+            {% for action in operation%}
+            <div class='card'>
+            <img src='{{action.map_scan.url}}' width=100% height= 200 alt="map image">
+            <div class="container">
+                    <p> <strong> {{action.reside}}</strong></p>
+                    <hr>
+                    <p> ID: {{action.id}}</p>
+                    <p> SIZE: {{action.size}}</p>
+                    <p> PRICE: {{action.amount}} </p>
+                    <p> SELLING AS WHOLE: {{action.mode_whole}}
+                    <p> SELLING IN PARTS:{{action.mode_part}} </p>
+                    <p> DISTANCE FROM ROAD: {{action.distance}} </p>
+                     <a href={% url 'landbroker:makeorder' action.id action.reside%}><button class ='btn_cls1'><u>Express Interest</u></button></a><br><br>
+            </div>
+            </div>
+        {% endfor %}
+    </div>
+        {% else %}
+            <p>No land avaliable</p>
+        {% endif %}
+</body>

@@ -1,0 +1,69 @@
+{% load static %}
+<DOCTYPE html>
+<head>
+    <title>LandBroker</title>
+    <link rel='stylesheet' href={% static 'css/style1.css' %} />
+    <link rel="shortcut icon" type="image/png" href="{% static 'css/logo.ico' %}"/>
+</head>
+<body>
+    <h1>Landbroker Ug</h1>
+    <hr>
+    <div>
+        <form method='POST' enctype="multipart/form-data">
+        {% csrf_token %}
+        <h3 style='text-align:center'>SELL LAND</h3>
+        <hr>
+        <table>
+            <tr>
+            <td>Tel No:</td><td><input type='text' name='tel_no' placeholder='+25677777777777' required></td>
+            </tr>
+            <tr>
+            <td>NIN Number:</td><td><input type='text' name='nin' placeholder='NIN Number' required></td>
+            </tr>
+            <tr>
+            <td>Location:</td><td><input type='text' name='reside' placeholder='Location of land' required></td>
+            </tr>
+            <tr>
+            <td>Amount per unit</td><td><input type='text' name='price' placeholder='eg (5M per Acre)' required></td>
+            </tr>
+            <tr>
+            <td>Size</td><td><input type='text' name='size' placeholder='eg (10 Acres)' required></td>
+            </tr>
+            <tr>
+            <td>Upload ID Scan</td><td><input type='file' name='id_scan' required></td>
+            </tr>
+            <tr>
+            <td>Upload Land Title scan</td><td><input type='file' name='title_scan' required></td>
+            </tr>
+            <tr>
+            <td>Upload Map Scan</td><td><input type='file' name='map_scan' required></td>
+            </tr>
+        </table>
+        <p style='text-align:center'>Mode of sell (can be both)</p>
+        <br>
+        <table>
+            <tr>
+            <td>Sell in Parts</td><td><input type='checkbox' name='parts' checked='checked' value='parts'></td>
+            </tr>
+            <tr>
+            <td>Sell as Whole</td><td><input type='checkbox' name='whole' value='whole'></td>
+            </tr>
+        </table>
+        <p style='text-align:center'>Type of Land Ownership</p>
+        <br>
+        <table>
+            <tr>
+            <td>Full ownership</td><td><input type='radio' name='ownership' value='full'></td>
+            </tr>
+            <tr>
+            <td>Lease</td><td><input type='radio' name='ownership' value='lease'></td>
+            </tr>
+            <tr>
+            <td>Rent</td><td><input type='radio' name='ownership' value='Rent'></td>
+            </tr>
+        </table>
+        <input class='btn_cls1' type='submit' value='Submit'>
+        <p>After submitting this form, our team is going to process the validity of your claim of sale. Within a week, we shall call you and inform you if your land passed the test and will be sold on our website and application platforms or not. This is a policy that is followed with an aim of ensuring that all land sold on this platform is genuine and not a facade. </p>
+        </form>
+    </div>
+</body>

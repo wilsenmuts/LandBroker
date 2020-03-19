@@ -1,0 +1,33 @@
+{% load static %}
+<DOCTYPE html>
+<head>
+    <title>LandBroker</title>
+    <link rel='stylesheet' href={% static 'css/style1.css' %} />
+    <link rel="icon" href="http://example.com/favicon.png">
+</head>
+<body>
+    <h1>Landbroker Ug</h1>
+    <hr>
+    {% if reply %}
+    <h2> {{ reply }}</h2>
+    {% endif %}
+    <div>
+        <form method='POST'>
+        {% csrf_token %}
+        <table>
+            <tr>
+            <td>Username:</td><td><input type='text' name='uname' placeholder='username'></td>
+            </tr>
+            <tr>
+            <td>Password:</td><td><input type='password' name='pword' placeholder='password'></td>
+            </tr>
+            <tr>
+            <td><input class='btn_cls1' type='submit' value='Login'></td><td class='btn_cls1' style='text-align:center; border-color:white'><a href={% url 'landbroker:register'  %}>Register</a></td>
+            </tr>
+        </table>
+       <br>
+        <a href={% url 'landbroker:register'  %} style='color:lightgreen;'>Forgot Password</a><br><br>
+         <a href={% url 'landbroker:logout'  %} style='color:lightgreen;'>Logout</a>
+        </form>
+    </div>
+</body>
