@@ -3,7 +3,7 @@
     text_size: self.size
     halign:'center'
     valign:'center'
-    color: .2, .4, .2, .9
+    color: .1, .4, .1, 1
 <MyTitle>:
     markup:True
     text_size: self.size
@@ -32,6 +32,10 @@
         md_bg_color:.5, .2, .2, 1
         on_press: root.items()
 
+<TextInput>:
+    cursor_color:0,0,0,.9
+    cursor_width:'2sp'
+    #padding:[5,0,5,0]
 RootScreen:
     id:scr_mng
     LoginScreen:
@@ -41,31 +45,27 @@ RootScreen:
     name:'login'
     BoxLayout:
         orientation:'vertical'
+        padding:10
         MDLabel:
-            text:'[color=#234523]LandBroker Ug[/color]'
+            text:'LandBroker Ug'
             font_size:'35dp'
             size_hint_y: None
-            height:'60dp'
-            markup: True
+            height:root.height/3
+            color:app.theme_cls.primary_color
             halign: 'center'
-        MDLabel:
-            text: 'Login'
-            id: login
-            halign: 'center'
-            size_hint_y: None
-            height:'45dp'
+
         GridLayout:
             cols:2
-            size_hint:(None,None)
-            height:'180dp'
+            size_hint_y:None
+            height:root.height/3
             spacing:5
-            padding:5
-            width:root.width
+            padding:20
             MDLabel:
-                text:'[color=#234567]Username[/color]:'
+                text:'[b]Username[/b]:'
                 markup:True
                 size_hint_y:None
                 height:'35dp'
+                color:app.theme_cls.primary_color
             MDTextField:
                 hint_text:'your username'
                 id: uname
@@ -76,10 +76,11 @@ RootScreen:
                 height:'35dp'
                 on_text_validate: root.login()
             MDLabel:
-                text:'[color=#234567]Password[/color]:'
+                text:'[b]Password[/b]:'
                 markup:True
                 size_hint_y:None
                 height:'35dp'
+                color:app.theme_cls.primary_color
             MDTextField:
                 hint_text:'your password'
                 id:pswd
@@ -90,34 +91,26 @@ RootScreen:
                 size_hint_y:None
                 height:'35dp'
                 on_text_validate: root.login()
-            MDFillRoundFlatIconButton:
+            MDRectangleFlatIconButton:
                 text:'Login'
                 icon:'key'
-                size_hint_x: 1
-                md_bg_color: .2, .4, .2, 1
                 on_release: root.login()
-            MDFillRoundFlatIconButton:
+            MDRectangleFlatIconButton:
                 text:'Sign Up'
                 icon:'web'
-                size_hint_x: 1
-                md_bg_color: .2, .4, .2, 1
                 on_release:root.signup()
 
-        MDRoundFlatIconButton:
-            text:'[color=#225511]Forgot Passward[/color]'
-            markup:True
+        MDRaisedButton:
+            pos_hint:{'center_x':.5}
+            text:'Forgot Passward'
+            increment_width:100
             icon:'email-outline'
-            halign:'center'
             padding: 10, 10
-            valign:'center'
-            halign:'center'
-            size_hint_x:None
-            width:root.width
             on_press: root.login()
         GridLayout:
             cols:1
             MyLabel:
-                text:'[color=#225511]MADE BY MUBOSOFT[/color]'
+                text:'[b]MADE BY MUBOSOFT[/b]'
                 size_hint_y:None
                 height:'40dp'
 
@@ -129,7 +122,7 @@ RootScreen:
         MDToolbar:
             id: toolbar
             title: 'LandBroker Ug'
-            md_bg_color: .2, .5, .2, .9
+            md_bg_color: app.theme_cls.primary_color
             left_action_items: [['cash', lambda x: '']]
         MDBottomNavigation:
             id: panel
@@ -137,52 +130,27 @@ RootScreen:
                 name: 'files1'
                 text: 'Buy Land'
                 icon: 'cart-arrow-down'
-
-                ScrollView:
-                    id: refresh_layout
-                    #refresh_callback: app.refresh_callback
-                    #root_layout: root
-                    bar_inactive_color: .2,.5, .2, 1
-                    bar_width: 3
-                    bar_color: .7, .2, .2, 1
-                    GridLayout:
-                        id: box
-                        size_hint_y: None
-                        height: self.minimum_height
-                        spacing:5
-                        cols: 1
-                        padding:10
-                        MyLabel:
-                            text:'List of Land for Sale'
-                            size_hint:(1, None)
-                            height:'40dp'
-                        MyLabel:
-                            text:'You only have to pay for the land after you have received its instruments of power. All the land, sold on this platform is genuine. Forget the scruplous sellers, try LandBroker Ug.'
-                            text_size: self.size
-                            halign:'auto'
-                            size_hint_y: None
-                            height: '100dp'
-                            bold:True
-                GridLayout:
-                    cols:2
-                    size_hint_height:None
-                    height:'45dp'
-                    spacing:5
+                BoxLayout:
+                    orientation:'vertical'
                     padding:5
-                    MDFillRoundFlatIconButton:
-                        text:'Re-Load'
-                        icon:'reload'
-                        md_bg_color: .7, .2, .2, 1
-                        size_hint_x: .4
-                        on_release:
-                            root.show_more()
-                    MDFillRoundFlatIconButton:
-                        text:'Back to top'
-                        icon:'arrow-up-bold'
-                        md_bg_color: .7, .2, .2, 1
-                        size_hint_x: .4
-                        on_release:
-                            root.to_top()
+                    ScrollView:
+                        id: refresh_layout
+                        #refresh_callback: app.refresh_callback
+                        #root_layout: root
+                        bar_inactive_color: .2,.5, .2, 1
+                        bar_width: 3
+                        bar_color: .7, .2, .2, 1
+                        BoxLayout:
+                            id: box
+                            size_hint_y: None
+                            height: self.minimum_height
+                            spacing:5
+                            orientation:'vertical'
+                            padding:10
+                            MyLabel:
+                                text:'List of Land for Sale'
+                                size_hint:(1, None)
+                                height:'40dp'
 
 
 
@@ -197,11 +165,11 @@ RootScreen:
                     bar_inactive_color: .2,.5, .2, 1
                     bar_width: 3
                     bar_color: .7, .2, .2, 1
-                    GridLayout:
+                    BoxLayout:
                         id: box1
                         size_hint_y: None
                         height: self.minimum_height
-                        cols: 1
+                        orientation:'vertical'
                         padding:10
                         MyTitle:
                             text:'Username'
@@ -217,11 +185,13 @@ RootScreen:
                                 text:'Tel. No'
                                 size_hint_y:None
                                 height: '35dp'
+                                size_hint_x:.5
 
                             TextInput:
                                 multiline:False
                                 hint_text:'+256772888555'
                                 size_hint_y:None
+                                size_hint_x:1
                                 height: '35dp'
                                 id: tel_no
                                 border: (4, 0, 0, 0)
@@ -229,18 +199,21 @@ RootScreen:
                                 text:'Email'
                                 size_hint_y:None
                                 height: '35dp'
+                                size_hint_x:.5
 
                             TextInput:
                                 multiline:False
                                 hint_text:'your@domain.com'
                                 size_hint_y:None
                                 height: '35dp'
+                                size_hint_x:1
                                 border: (4, 0, 0, 0)
                                 id: mail
                             MyLabel:
                                 text:'NIN_number'
                                 size_hint_y:None
                                 height: '35dp'
+                                size_hint_x:.5
 
                             TextInput:
                                 multiline:False
@@ -248,16 +221,19 @@ RootScreen:
                                 size_hint_y:None
                                 height: '35dp'
                                 border: (4, 0, 0, 0)
+                                size_hint_x:1
                                 id: nin_no
                             MyLabel:
                                 text:'Location'
                                 size_hint_y:None
                                 height: '35dp'
+                                size_hint_x:.5
 
                             TextInput:
                                 multiline:False
                                 id:reside
                                 hint_text:'place'
+                                size_hint_x:1
                                 size_hint_y:None
                                 height: '35dp'
                                 border: (4, 0, 0, 0)
@@ -265,10 +241,12 @@ RootScreen:
                                 text:'Amount per unit'
                                 size_hint_y:None
                                 height: '35dp'
+                                size_hint_x:.5
 
                             TextInput:
                                 multiline:False
                                 id:amount
+                                size_hint_x:1
                                 hint_text:'3M UGX per acre'
                                 size_hint_y:None
                                 height: '35dp'
@@ -278,6 +256,7 @@ RootScreen:
                                 text:'Size'
                                 size_hint_y:None
                                 height: '35dp'
+                                size_hint_x:.5
 
                             TextInput:
                                 multiline:False
@@ -285,14 +264,15 @@ RootScreen:
                                 hint_text:'eg. 50 Acres'
                                 size_hint_y:None
                                 height: '35dp'
+                                size_hint_x:1
                                 border: (4, 0, 0, 0)
-                            MDFillRoundFlatIconButton:
+                            MDRectangleFlatIconButton:
                                 text:'Upload ID'
                                 icon:'file-upload'
                                 size_hint_y:None
                                 height: '35dp'
-                                size_hint_x:.5
-                                md_bg_color: .2, .5, .2, .9
+                                text_color:1,1,1,1
+                                md_bg_color:app.theme_cls.primary_color
                                 on_press: root.UploadPic()
 
                             MyLabel:
@@ -301,13 +281,13 @@ RootScreen:
                                 id: id_pic
                                 size_hint_y:None
                                 height: '35dp'
-                            MDFillRoundFlatIconButton:
+                            MDRectangleFlatIconButton:
                                 text:'Upload title'
                                 icon:'file-upload'
                                 size_hint_y:None
                                 height: '35dp'
-                                size_hint_x:.5
-                                md_bg_color: .2, .5, .2, .9
+                                text_color:1,1,1,1
+                                md_bg_color:app.theme_cls.primary_color
                                 on_press: root.UploadPic()
 
                             MyLabel:
@@ -316,13 +296,13 @@ RootScreen:
                                 id: title_pic
                                 size_hint_y:None
                                 height: '35dp'
-                            MDFillRoundFlatIconButton:
+                            MDRectangleFlatIconButton:
                                 text:'Upload Map'
                                 icon:'file-upload'
                                 size_hint_y:None
                                 height: '35dp'
-                                size_hint_x:.5
-                                md_bg_color: .2, .5, .2, .9
+                                text_color:1,1,1,1
+                                md_bg_color:app.theme_cls.primary_color
                                 on_press: root.UploadPic()
 
                             MyLabel:
@@ -364,7 +344,7 @@ RootScreen:
                         GridLayout:
                             cols:2
                             size_hint_y: None
-                            height:'120dp'
+                            height:'150dp'
                             MyLabel:
                                 text:'Full Ownership'
                                 size_hint_y:None
@@ -395,26 +375,25 @@ RootScreen:
                                 size_hint_y:None
                                 height: '35dp'
                                 color: .1, .3, .1, 1
-                        MDRaisedButton:
+                        Button:
                             text:'Submit'
                             size_hint_y:None
-                            height: '35dp'
-                            md_bg_color: .7, .2, .2, 1
-                            size_hint_x: 1
+                            height: '40dp'
+                            background_color: .1,1,.1,1
                             on_release: root.submit_data()
                         MyLabel:
                             text:'We shall verify the validity of your ownership of the land within a week. After, we shall call you to inform you about your validity of claim of sale. Only approved land owners will have their land posted or uploaded onto our applications. This is a process undertaken to ensure that all lands sold by our company are genuine.'
                             text_size:self.size
                             size_hint_y:None
-                            height: '100dp'
+                            height: '200dp'
             MDBottomNavigationItem:
                 name: 'files3'
                 text: 'About'
                 icon: 'arrow-up-bold-hexagon-outline'
                 text:'About'
-                GridLayout:
-                    cols:1
-                    padding: 5
+                BoxLayout:
+                    orientation:"vertical"
+                    padding: 10
                     spacing:5
                     MyTitle:
                         text:'Username'
@@ -435,15 +414,15 @@ RootScreen:
                         markup: True
                     MDRaisedButton:
                         text:'Contact Developer of App'
-                        size_hint:(1, None)
+                        size_hint_y: None
                         height: '35dp'
-                        md_bg_color: .8, .2, .3, .9
+                        pos_hint:{"center_x":.5}
                     MDRaisedButton:
                         text:'Log Out'
-                        size_hint:(1, None)
+                        size_hint_y: None
                         height: '35dp'
-                        md_bg_color: .8, .2, .3, .9
                         on_release: root.logout()
+                        pos_hint:{"center_x":.5}
 
 <UpPic>:
     cols:1

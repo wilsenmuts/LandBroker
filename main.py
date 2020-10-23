@@ -9,16 +9,18 @@ from kivy.properties import StringProperty, ObjectProperty, ListProperty
 import kivymd
 from kivymd.app import MDApp
 from kivymd.uix.label import MDLabel
-from kivymd.uix.card import MDCard, MDCardPost
+from kivymd.uix.card import MDCard
 from kivymd.uix.button import MDFillRoundFlatButton, MDRaisedButton
 from kivy.uix.screenmanager import ScreenManager, Screen
 import mysql.connector
 from kivy.network.urlrequest import UrlRequest
 from kivymd.toast import toast
+
+from kivymd.utils.fitimage import FitImage
 from mysql.connector import errorcode
 import time
 import webbrowser as wb
-from kivymd.uix.dialog import MDInputDialog, MDDialog
+#from kivymd.uix.dialog import MDInputDialog, MDDialog
 from kivymd.toast import toast
 import datetime
 import requests
@@ -81,6 +83,10 @@ class ActivityScreen(Screen):
     p = StringProperty(None)
     uname = StringProperty(None)
 
+    def __init__(self, **kw):
+        super(ActivityScreen, self).__init__(**kw)
+        Clock.schedule_once(self.show_more, 1)
+
     def UploadPic(self):
         popPic()
 
@@ -101,7 +107,7 @@ class ActivityScreen(Screen):
         toast('User pressed enter in:   ' + value.text)
 
 
-    def show_more(self):
+    def show_more(self, nap):
         self.ids.box.clear_widgets()
         cnx = mysql.connector.connect(user='wilson',password='12345', database='landbroker')
         cursor = cnx.cursor()
@@ -127,7 +133,7 @@ class ActivityScreen(Screen):
             layout1.add_widget(MDLabel(text='Ownership: '+ownership))
             layout1.add_widget(MDLabel(text='Distance: ' +distance))
             layout1.add_widget(MDLabel(text='Selling in Parts: ' +mode))
-            layout1.add_widget( MDRaisedButton(text='Express Interest',md_bg_color=(.7, .2, .2, 1),size_hint_x=1, on_press=self.printer))
+            layout1.add_widget( MDRaisedButton(text='Express Interest',md_bg_color=(.7, .2, .2, 1),increment_width=100, on_press=self.printer))
             layout.add_widget(layout1)
             #print(a +'\n'+ b + '\n'+p)
 
@@ -229,6 +235,10 @@ class RootScreen(ScreenManager):
 
 class myApp(MDApp):
     def build(self):
+        self.theme_cls.primary_palette = "Teal"
+        self.theme_cls.primary_hue = "900"
+        self.theme_cls.accent_palette='Blue'
+        self.theme_cls.accent_hue='900'
         return
 
 if __name__ =='__main__':
