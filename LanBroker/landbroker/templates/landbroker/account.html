@@ -1,0 +1,180 @@
+{% load static %}
+<DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>LandBroker</title>
+    <link rel='stylesheet' href={% static 'css/bootstrap/bootstrap.min.css' %} />
+    <link rel='stylesheet' href={% static 'css/fontawesome/fontawesome.css' %} />
+    <link rel='stylesheet' href={% static 'css/style1.css' %} />
+    <link rel='stylesheet' href={% static 'css/styler.css' %} />
+    <script type='text/javascript' src= {% static 'js/popper/popper.min.js' %}></script>
+    <script type='text/javascript' src= {% static 'js/jquery-3.5.1.min.js' %}></script>
+    <script type='text/javascript' src= {% static 'js/Bootstrap/bootstrap.js' %}></script>
+    <script type='text/javascript' src= {% static 'js/fontawesome/all.min.js' %}></script>
+    <link rel="icon" href={% static 'css/logo.ico' %}>
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm navbar-light text-white bg-greysan sticky-top">
+        <a class="navbar-brand text-white" href="#">Landbroker Ug</a>
+        <button class="navbar-toggler d-lg-none bg-white text-white" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon text-white"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavId">
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="{% url 'landbroker:show_buy' %}">Buy Land<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="{% url 'landbroker:submit_sale' %}">Sell Land</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link text-light dropdown-toggle" href="#" id="dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">View Refs</a>
+                    <div class="dropdown-menu bg-success" aria-labelledby="dropdownId">
+                        <a class="dropdown-item" href="#">Terms and Conditions</a>
+                        <a class="dropdown-item" href="#">Testimonial</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light bg-primary text-center" href="{% url 'landbroker:account' %}">Account</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light bg-danger text-center rounded" href="{% url 'landbroker:logout' %}">Sign-out</a>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="text" placeholder="Search">
+                <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+    {% if query %}
+    <div class="alert alert-primary alert-dismissible fade show" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            <span class="sr-only">Close</span>
+        </button>
+        <p class='text-center'><strong>{{query}}</strong></p>
+    </div>
+    {% endif %}
+    <br>
+
+    <!--Creating the section for display the user's account activity-->
+    <div class='row row-cols-1 row-cols-sm-2 row-cols-md-3'>
+        <!--About the user's account-->
+        <div class="col" align=center>
+        <div class="padding border rounded shadow" style='max-width:350px'>
+        <h3>{{request.user|upper}}</h3>
+        <img src="{{user.photo.url}}" class="rounded fitimage img-center" height=300 alt="user photo">
+        <br>
+        <div class="bg-greysan padding rounded-bottom" style="max-width:300px">
+        <p class=''>Username: {{request.user}}</p>
+        <p class=''>First name: {{request.user.first_name}}</p>
+        <p class=''>Surname: {{request.user.last_name}}</p>
+        <p class=''>Email: {{request.user.email}}</p>
+        <p class=''>Contact: {{user.tel_no}}</p>
+        </div>
+        </div>
+
+        </div>
+
+        <!--AAbout Expresions and ownership-->
+        <div class='col'>
+        <!--beginn expressions-->
+
+        <style>
+            .code {
+                position: relative;
+            }
+        </style>
+        <div data-spy="scroll" class='code' data-target="#navId">
+        <nav id="navbar-example2" class="bg-greysan padding rounded-top">
+            <text class="navbar-brand text-light" href="#">Expressed Interest in</text>
+        </nav>
+            <div data-spy="scroll" style="height:250px; overflow-y:scroll;">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Location</th>
+                            <th>Price</th>
+                            <th>Action<th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for bid in bids %}
+                        <tr>
+                            <td class='text-dark' scope="row">{{bid.reside}}</td>
+                            <td class='text-success'>{{bid.amount}}</td>
+                            {% if bid.status %}
+                            <td class='text-dark'>bought</td>
+                            {% else %}
+                            <td><a href="{% url 'landbroker:delete_interest' bid.id %}" class='text-primary'>delete</a></td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                        <tr>
+                            <td scope="row"></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <br>
+        
+
+        <nav id="navbar-example2" class="bg-greysan padding rounded-top">
+            <text class="navbar-brand text-light" href="#">Lands for sale</text>
+        </nav>
+        <div data-spy="scroll" style="height:250px; overflow-y:scroll">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Location</th>
+                        <th>Price</th>
+                        <th>Action<th>
+                    </tr>
+                </thead>
+                <tbody class=''>
+                {% for land in lands %}
+                    <tr>
+                        <td class='text-dark' scope="row">{{land.reside}}</td>
+                        <td class='text-success'>{{land.amount}}</td>
+                        {% if land.is_active %}
+                        <td class='text-primary'><a href="{% url 'landbroker:delete_land' land.id %}">delete</a></td>
+                        {% else %}
+                        <td class='text-dark'>pending</td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+                    <tr>
+                        <td scope="row"></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!--End expressions-->
+        </div>
+
+        <!--About Lands yploaded for sale-->
+        <div class='col'>
+            <div class="bg-dark padding rounded text-light">
+                <p class="bg-danger text-light padding rounded-top"> <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Disclaimer</p>
+                <p>Please, remember to always update your account's tables.</p>
+                <p>Lanfbroker always looks to it that its clients have a first class experience of their system. Unfortunately, this is impossible without you being involved. Therefore watchout, otherwise you may end up paying a very escapable fine for this escapable case.</p>
+            </div>
+            <br>
+            <a class="btn btn-block bg-greysan" href=""> <i class="fab fa-app-store    "></i> Apple store (Coming soon)</a>
+            <a  class="btn btn-block bg-greysan" href=""> <i class="fab fa-google-play    "></i> Google play store (Coming Soon) </a>
+
+        </div>
+    </div>
+    
+
+
+    <br>
+
+
+    </body>

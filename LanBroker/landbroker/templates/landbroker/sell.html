@@ -1,68 +1,144 @@
 {% load static %}
 <DOCTYPE html>
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>LandBroker</title>
+    <link rel='stylesheet' href={% static 'css/bootstrap/bootstrap.min.css' %} />
+    <link rel='stylesheet' href={% static 'css/fontawesome/fontawesome.css' %} />
     <link rel='stylesheet' href={% static 'css/style1.css' %} />
-    <link rel="shortcut icon" type="image/png" href="{% static 'css/logo.ico' %}"/>
+    <link rel='stylesheet' href={% static 'css/styler.css' %} />
+    <script type='text/javascript' src= {% static 'js/popper/popper.min.js' %}></script>
+    <script type='text/javascript' src= {% static 'js/jquery-3.5.1.min.js' %}></script>
+    <script type='text/javascript' src= {% static 'js/Bootstrap/bootstrap.js' %}></script>
+    <script type='text/javascript' src= {% static 'js/fontawesome/all.min.js' %}></script>
+    <link rel="icon" href={% static 'css/logo.ico' %}>
+
 </head>
 <body>
-    <h1>Landbroker Ug</h1>
-    <hr>
-    <div>
-        <form method='POST' enctype="multipart/form-data">
+    <nav class="navbar navbar-expand-sm navbar-light text-white bg-greysan sticky-top">
+        <a class="navbar-brand text-white" href="#">Landbroker Ug</a>
+        <button class="navbar-toggler bg-light d-lg-none text-white" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon text-white"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavId">
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="{% url 'landbroker:show_buy' %}">Buy Land<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="{% url 'landbroker:submit_sale' %}">Sell Land</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link text-light dropdown-toggle" href="#" id="dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">View Refs</a>
+                    <div class="dropdown-menu bg-success" aria-labelledby="dropdownId">
+                        <a class="dropdown-item" href="#">Terms and Conditions</a>
+                        <a class="dropdown-item" href="#">Testimonial</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light text-center bg-primary" href="{% url 'landbroker:account' %}">Account</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-center text-light bg-danger" href="{% url 'landbroker:logout' %}">Sign-out</a>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="text" placeholder="Search">
+                <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+    <br>
+    {% if query %}
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            <span class="sr-only">Close</span>
+        </button>
+        <strong>Hey there, {{request.user}}</strong>, {{query}}
+    </div>
+    {% endif %}
+
+    {% if query1 %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            <span class="sr-only">Close</span>
+        </button>
+        <strong>Hey there, {{request.user}}</strong> {{query1}}
+    </div>
+    {% endif %}
+
+
+
+    <div align='center'>
+        <form method='POST' class='login_form text-white padding' enctype="multipart/form-data">
         {% csrf_token %}
-        <h3 style='text-align:center'>SELL LAND</h3>
-        <hr>
-        <table>
-            <tr>
-            <td>Tel No:</td><td><input type='text' name='tel_no' placeholder='+25677777777777' required></td>
-            </tr>
-            <tr>
-            <td>NIN Number:</td><td><input type='text' name='nin' placeholder='NIN Number' required></td>
-            </tr>
-            <tr>
-            <td>Location:</td><td><input type='text' name='reside' placeholder='Location of land' required></td>
-            </tr>
-            <tr>
-            <td>Amount per unit</td><td><input type='text' name='price' placeholder='eg (5M per Acre)' required></td>
-            </tr>
-            <tr>
-            <td>Size</td><td><input type='text' name='size' placeholder='eg (10 Acres)' required></td>
-            </tr>
-            <tr>
-            <td>Upload ID Scan</td><td><input type='file' name='id_scan' required></td>
-            </tr>
-            <tr>
-            <td>Upload Land Title scan</td><td><input type='file' name='title_scan' required></td>
-            </tr>
-            <tr>
-            <td>Upload Map Scan</td><td><input type='file' name='map_scan' required></td>
-            </tr>
-        </table>
-        <p style='text-align:center'>Mode of sell (can be both)</p>
+        <div class="form-group">
+        <!--The textfield fill ins -->
+          <label for="tel_no">Phone Number</label>
+          <input type="text" name="tel_no" id="tel_no" class="form-control" placeholder="Phone Contact" aria-describedby="helpId" required>
+          <label for="reside">Location</label>
+          <input type="text" name="reside" id="reside" class="form-control" placeholder="Location" aria-describedby="helpId" required>
+          <label for="nin">NIN</label>
+          <input type="text" name="nin" id="nin" class="form-control" placeholder="NIN Number" aria-describedby="helpId" required>
+          <label for="price">Amount</label>
+          <input type="text" name="price" id="price" class="form-control" placeholder="price" aria-describedby="helpId" required>
+          <label for="size">Size</label>
+          <input type="text" name="size" id="size" class="form-control" placeholder="size" aria-describedby="helpId" required>
+        <!--The file upload fields-->
         <br>
-        <table>
-            <tr>
-            <td>Sell in Parts</td><td><input type='checkbox' name='parts' checked='checked' value='parts'></td>
-            </tr>
-            <tr>
-            <td>Sell as Whole</td><td><input type='checkbox' name='whole' value='whole'></td>
-            </tr>
-        </table>
-        <p style='text-align:center'>Type of Land Ownership</p>
         <br>
-        <table>
-            <tr>
-            <td>Full ownership</td><td><input type='radio' name='ownership' value='full'></td>
-            </tr>
-            <tr>
-            <td>Lease</td><td><input type='radio' name='ownership' value='lease'></td>
-            </tr>
-            <tr>
-            <td>Rent</td><td><input type='radio' name='ownership' value='Rent'></td>
-            </tr>
-        </table>
-        <input class='btn_cls1' type='submit' value='Submit'>
+        <div class="input-group mb-3">
+            <div class="custom-file">
+                <input type="file" name="id_scan" accept="image/*,.pdf" id="id_scan" required class="custom-file-input">
+                <label class="custom-file-label" for="id_scan" aria-describedby="id_scan">Upload a scan of your ID</label>
+            </div>
+        </div>
+
+        <div class="input-group mb-3">
+            <div class="custom-file">
+                <input type="file" name="title_scan" accept="image/*,.pdf" id="title_scan" required class="custom-file-input">
+                <label class="custom-file-label" for="title_scan" aria-describedby="title_scan">Upload a scan of the land title</label>
+            </div>
+        </div>
+
+        <div class="input-group mb-3">
+            <div class="custom-file">
+                <input type="file" id='map_scan' name="map_scan" accept="image/*" required class="custom-file-input">
+                <label class="custom-file-label" for="map_scan" aria-describedby="map_scan">Upload land map scan (must be an image)</label>
+            </div>
+        </div>
+
+
+        <br>
+        <text>Mode of sale (Selling whole land or just part of it)</text>
+        <!--Checkbox field-->
+        <div class="form-inline padding">
+          <label class="form-check-label"><input type="checkbox" class="form-check-input text-clr-thm" name="parts" id="parts" value="parts" checked>In parts</label> &nbsp &nbsp &nbsp
+          <label class="form-check-label"><input type="checkbox" class="form-check-input text-clr-thm" name="whole" id="whole" value="whole">Whole</label>
+        </div>
+        <!--The radio buttons region-->
+        <br>
+         <p>Type of Ownership</p>
+        <div class="form-check form-inline">
+            <label class="form-check-label">
+                <input class="form-check-input" type="radio" name="ownership" id="full" value="full"> Full
+            </label> &nbsp &nbsp &nbsp
+            <label class="form-check-label">
+                <input class="form-check-input" type="radio" name="ownership" id="lease" value="lease" checked> Lease
+            </label> &nbsp &nbsp &nbsp
+            <label class="form-check-label">
+                <input class="form-check-input" type="radio" name="ownership" id="Rent" value="Rent"> Rent
+            </label>
+        </div>
+        </div>
+        <label for="desc">Description</label>
+          <textarea type="text" name="desc" id="desc" rows=5 class="form-control" placeholder="Describe a pitch for your land eg 'The land is placed by the road. It is flat and perfectly well made for cattle rearing. Its ... '" aria-describedby="helpId" required></textarea>
+          <br>
+        <input class=' btn btn-outline-light padding-5 btn-block' type='submit' value='Submit'>
+        <br>
         <p>After submitting this form, our team is going to process the validity of your claim of sale. Within a week, we shall call you and inform you if your land passed the test and will be sold on our website and application platforms or not. This is a policy that is followed with an aim of ensuring that all land sold on this platform is genuine and not a facade. </p>
         </form>
     </div>

@@ -1,4 +1,5 @@
 from django.http import HttpResponse, HttpResponseRedirect
+from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import *
 from django.conf import settings
@@ -10,6 +11,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 from .serializers import FileSerializer
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def register(request):
@@ -50,7 +52,7 @@ def login1(request):
         if user is not None:
             request.session['username'] = username_input
             login(request, user)
-            return HttpResponseRedirect('/buy')
+            return HttpResponseRedirect('/')
         else:
             reply ='Your details are invalid. Please,try again'
             context ={'reply':reply}
@@ -58,6 +60,7 @@ def login1(request):
     context={}
     return render(request,'landbroker/index.html', context)
 
+@login_required(login_url='/login/')
 def submit_sale(request):
     if request.method == 'POST':
         if request.session.has_key('username'):
@@ -73,6 +76,7 @@ def submit_sale(request):
             item10 = request.POST.get('parts')
             item11 = request.POST.get('whole')
             item12 = request.POST.get('ownership')
+            item13 = request.POST.get('desc')
 
             if item10:
                 dec = True
@@ -95,32 +99,98 @@ def submit_sale(request):
                 map_scan = item9,
                 mode_whole = dec,
                 mode_part = dec1,
-                ownership = item12
+                ownership = item12,
+                description=item13
 
             )
             create_sale.save()
-            print('***\n'+str(request.POST)+'\n***')
-            return HttpResponse('The request to show your land was a success!!!!')
+            context={'query':'Your request to show your land has been submitted. Landbroker Ug will now validate its authenticity'}
+            return render(request, 'landbroker/sell.html', context)
         else:
-            return redirect('/')
+            context={'query1':'We encountered an error, please try again...'}
+            return render(request, 'landbroker/sell.html', context)
     context={}
     return render(request, 'landbroker/sell.html', context)
 
-
 def show_buy(request):
-    query = sell.objects.order_by('date_box').filter(is_active=True)
-    context ={'operation':query}
+    if request.method=='POST':
+        search = request.POST.get('search')
+        query = sell.objects.filter(reside__contains=search)
+        paginator = Paginator(query, 16)
+        page = request.GET.get('page')
+        object_list= paginator.get_page(page)
+        context ={'operation':object_list}
+        return render(request, 'landbroker/buy.html', context)
+    query = sell.objects.order_by('-date_box').filter(is_active=True)
+    paginator = Paginator(query, 20)
+    page = request.GET.get('page')
+    object_list= paginator.get_page(page)
+    context ={'operation':object_list}
     return render(request, 'landbroker/buy.html', context)
+
+def delete_interest(request, id):
+    interest = get_object_or_404(buy, id=id)
+    interest.delete()
+    user=request.user
+    bids = buy.objects.filter(username=user).order_by('reside')
+    user_details=get_object_or_404(profile, username=user)
+    lands = sell.objects.filter(username=user).order_by('reside')
+    context={'user':user_details, 'bids':bids, 'lands':lands, 'query':'The expression of interest was successfully deleted' }
+    return render(request, 'landbroker/account.html', context)
+
+def delete_land(request, id):
+    interest = get_object_or_404(sell, id=id)
+    interest.delete()
+    user=request.user
+    bids = buy.objects.filter(username=user).order_by('reside')
+    user_details=get_object_or_404(profile, username=user)
+    lands = sell.objects.filter(username=user).order_by('reside')
+    context={'user':user_details, 'bids':bids, 'lands':lands, 'query':'The land was successfully deleted' }
+    return render(request, 'landbroker/account.html', context)
+
+
+@login_required(login_url='/login/')
+def account(request):
+    #user_details = profile.objects.filter(username=request.user)
+    user=request.user
+    bids = buy.objects.filter(username=user).order_by('reside')
+    user_details=get_object_or_404(profile, username=user)
+    lands = sell.objects.filter(username=user).order_by('reside')
+    context={'user':user_details, 'bids':bids, 'lands':lands }
+    return render(request, 'landbroker/account.html', context)
 
 def logout1(request):
     logout(request)
-    return HttpResponse('<strong>You have been logged out...</strong>')
+    return HttpResponseRedirect('/')
 
 def makeorder(request, article_id, article_reside):
     print(article_id)
     query = sell.objects.filter(id=article_id)
     print(article_reside)
     return redirect('/buy/')
+
+def show_more(request, id):
+    query = get_object_or_404(sell, id=id)
+    context={'query': query}
+    return render(request, 'landbroker/land.html', context )
+
+@login_required(login_url='/login/')
+def interest(request, id):
+    target = get_object_or_404(sell, id=id)
+    interested = buy(
+        username = request.user,
+        reside = target.reside,
+        size = target.size,
+        tel_no= target.tel_no,
+        amount= target.amount,
+        size_wanted = 000,
+        status= False
+    )
+    interested.save()
+    query = sell.objects.order_by('date_box').filter(is_active=True)
+    alert='Your expression of interest has been received. Landbroker Ug will call you within 1-2 weeks to understand your interest better.'
+    context ={'operation':query, 'alert':alert}
+    return render(request, 'landbroker/buy.html', context)
 
 class FileUploadView(APIView):
     parser_class = (FileUploadParser,)

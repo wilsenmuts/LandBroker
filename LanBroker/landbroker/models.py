@@ -36,6 +36,7 @@ class sell(models.Model):
     is_active = models.BooleanField(default=False)
     date_box = models.DateTimeField(auto_now_add=True)
     distance = models.CharField(max_length=35, default='On Road')
+    description = models.TextField(blank=True)
 
     def __str__(self):
         return self.reside
@@ -43,7 +44,6 @@ class sell(models.Model):
 class buy(models.Model):
     username= models.ForeignKey(User, to_field="username", on_delete=models.CASCADE)
     tel_no= models.CharField(max_length=35)
-    email= models.CharField(max_length=35)
     reside = models.CharField(max_length=35)
     size= models.CharField(max_length=35)
     amount = models.CharField(max_length=35)

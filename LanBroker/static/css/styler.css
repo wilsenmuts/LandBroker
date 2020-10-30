@@ -1,0 +1,141 @@
+.intro {
+    width: 400;
+}
+
+.padding {
+    padding: 10px;
+}
+
+.padding-5 {
+    padding: 4px
+}
+
+.login_form {
+    background-color: rgb(0, 88, 57);
+    max-width: 500px;
+    min-width: 200px;
+    min-height: 200px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.bg-greenish {
+    background-color: rgba(172, 243, 172, 0.205);
+}
+
+.img-center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto
+}
+
+figcaption {
+    display: inline-block;
+}
+
+th {
+    width: 180;
+    padding: 10px;
+    height: 35px;
+}
+
+footer {
+    font-size: 11px;
+}
+
+.bg-greysan {
+    background-color: rgb(0, 88, 57);
+    ;
+    color: white;
+}
+
+.fitimage {
+    object-fit: cover;
+}
+
+.bg-mg1 {
+    background-image: url('bulb.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.bg-mg-phone {
+    background-image: url('mobApp.png');
+    background-position-x: center;
+    background-repeat: no-repeat;
+    color-adjust: rgba(255, 255, 255, 1)
+}
+
+.btn-width1 {
+    width: 600px;
+}
+
+.bg-mg2 {
+    background-image: url('stock.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.scroll_at {
+    height: 600px;
+}
+
+.text-greensan {
+    color: rgb(80, 80, 230);
+}
+
+.item_mid {
+    margin-top: 10%;
+}
+
+.newsbox {
+    border-style: solid;
+    border-color: #759b9b;
+    padding-top: 10px;
+    padding-bottom: 3px;
+    padding-left: 5%;
+    padding-right: 5%;
+    border-radius: 5px;
+    border-width: 1px;
+    background-color: #dbe9e9;
+}
+
+.newsbody {
+    border-style: solid;
+    border-color: #759b9b;
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-top: 10px;
+    border-radius: 5px;
+    background-color: #dbe9e9;
+    border-width: 1px;
+}
+
+.img-center {
+    image-rendering: auto;
+    image-orientation: flip;
+}
+
+.img-obj1 {
+    position: relative;
+    text-align: center;
+    color: white;
+}
+
+.img-text1 {
+    position: absolute;
+    top: 50;
+    left: 50;
+    transform: translate(-50%, -50%);
+}
+
+.glow {
+    font-size: 80px;
+    color: #dbe9e9;
+    text-align: center;
+    -webkit-animation: glow 1s ease-in-out infinite alternate;
+    -moz-animation: glow 1s ease-in-out infinite alternate;
+    animation: glow 1s ease-in-out infinite alternate;
+}

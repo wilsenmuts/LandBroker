@@ -1,0 +1,48 @@
+{% load static %}
+<DOCTYPE! html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>LandBroker</title>
+    <link rel='stylesheet' href={% static 'css/style1.css' %} />
+    <link rel='stylesheet' href={% static 'css/bootstrap/bootstrap.min.css' %} />
+    <link rel='stylesheet' href={% static 'css/fontawesome/fontawesome.css' %} />
+    <link rel='stylesheet' href={% static 'css/style1.css' %} />
+    <link rel='stylesheet' href={% static 'css/styler.css' %} />
+    <script type='text/javascript' src= {% static 'js/popper/popper.min.js' %}></script>
+    <script type='text/javascript' src= {% static 'js/jquery-3.5.1.min.js' %}></script>
+    <script type='text/javascript' src= {% static 'js/Bootstrap/bootstrap.js' %}></script>
+    <script type='text/javascript' src= {% static 'js/fontawesome/all.min.js' %}></script>
+    <script type='text/javascript' src= {% static 'js/landbroker.js' %}></script>
+</head>
+<body class='container'>
+<br>
+<br>
+<h1 class='text-center'>This Land is for sale</h1>
+<p class="rounded text-white bg-greysan padding">This land has been verified to belong to the seller and is therefore eligible for sale. Remember avoid to give the seller money without involvemnet of landbroker Ug as that may result into fraud. If you want to visit the land to validate its availability and its seller , Landbroker Ug is open to the idea though you might need to pay an unstandard fee to access this service.</p>
+<div class='row row-cols-1 row-cols-sm-2'>
+    <div class='col'>
+    <img src="{{query.map_scan.url}}" class="fitimage w-100 rounded" height=500 alt="land map">
+    <br>
+    </div>
+    <div class='col padding'>
+    <div class='bg-light shadow padding'>
+    <h3 class="text-center text-clr-thm">{{query.reside}}</h3>
+    <p>{{query.description|linebreaksbr}}</p>
+    <p class= 'text-capitalize'>Ownership: {{query.ownership}}</p>
+    <p class= ''>Price: {{query.amount}}</p>
+    <p class= '' >Size: {{query.size}}</p>
+    <p class= ''>Distance from road: {{query.distance}}</p>
+    {% if query.mode_whole %}
+        <p class=''>The land is sold as a whole.</p>
+    {% endif %}
+    {% if query.mode_part %}
+        <p class=''>The land is sold in parts.</p>
+    {% endif %}
+    <a class='' href="{% url 'landbroker:interest' query.id %}"><button class='btn btn-block bg-greysan text-decoration-none text-light' onclick=alertInterest()>Express Interest &nbsp <i class="fa fa-bookmark" aria-hidden="true"></i> </button> </a>
+    </div>
+    </div>
+</div>
+<br>
+<br>
+</body>
